@@ -1,0 +1,13 @@
+<h3><%= @car.brand %></h3>
+<h3><%= @car.name %></h3>
+<h3><%= @car.make_year %></h3>
+
+<form action='/cars/<%= @car.id %>' method='POST'>
+  <label>Brand: </label><br><br><input id="brand" type='text' name="brand"><br><br>
+	<label>Car Model: </label><br><br><input id="car_model" type='text' name='name'><br><br>
+	<label>Year: </label><br><br><input id="make_year" type='text' name='make_year'><br><br>
+	<input type="submit" value="Save Edit">
+</form><br>
+<form action="<%="/cars/#{@car.id}/delete"%>" method="POST">
+	<input type="submit" value="Delete Car">
+</form>

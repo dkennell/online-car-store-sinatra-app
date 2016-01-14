@@ -1,0 +1,17 @@
+<h1>Welcome,</h1>
+<% @cars.each_with_index do |car, i| %>
+	<p><a href='/cars/<%=car.id%>'>
+		<%= (i+1).to_s + ':  ' %>
+    <%= car.brand %>
+    <%= car.name %>
+    <%= car.make_year %>
+  </a> 
+  User: <%= car.user.username %>
+  </p>
+<% end %>
+<br>
+<br>
+
+<form action="<%="/cars/new"%>" method="GET">
+	<input type="submit" value="Add New Car">
+</form>
