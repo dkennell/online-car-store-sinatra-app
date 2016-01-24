@@ -6,12 +6,12 @@
 <body>
 	<nav>
 		<% if logged_in? %>
-			<a href="/cars/new"> Add A Car To Your Collection </a><br><br>
-			<a href="/logout"> LOG OUT </a>
+			<a href="/cars/new"><button type="submit">Add A Car</button></a>&nbsp
+			<a href="/logout"><button type="submit">LOG OUT</button></a>
 			<p id='user-id'> Logged In As: <%= current_user.username %></p>
 		<% else %>
-			<a href='/signup'> Creat A User </a>
-			<a href='/login'> LOG IN </a>
+			<a href='/signup'><button type="submit">Create A User</button></a>&nbsp
+			<a href='/login'><button type="submit">LOG IN</button></a>
 		<% end %>
 	</nav>
 
