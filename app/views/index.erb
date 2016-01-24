@@ -9,15 +9,18 @@
 </form><br>
 <form action="/logout" method="GET">
 	<button type="submit">Log Out</button>
-</form><br>
+</form>
 
-<h3>Every Car:</h3>
+<h3> Cars Available For Sale Today: </h3>
 <% Car.all.each_with_index do |car, i| %>
-	<blockquote>
+
+	<p><a href='/cars/<%=car.id%>'>
 		<%= (i+1).to_s + ':  ' %>
+		<%= car.make_year %>
     <%= car.brand %>
     <%= car.name %>
-    <%= car.make_year %>
-  </blockquote>
-  <figcaption>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp-&nbsp<%= car.user %></figcaption><br>
+		For: &#36;<%= car.price %>
+  </a>&nbsp&nbsp&nbsp
+  <a href="mailto:<%= car.user.email %>?Subject=Do%20You%20Still%20Have%20The%20<%= car.name %>%20For%20Sale?" target="_top">Contact Seller</a>
+  </p>
 <% end %>

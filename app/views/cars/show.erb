@@ -1,6 +1,7 @@
-<h3><%= @car.brand %></h3>
-<h3><%= @car.name %></h3>
-<h3><%= @car.make_year %></h3>
+<h3>Brand: <em><%= @car.brand %></em></h3>
+<h3>Model: <em><%= @car.name %></em></h3>
+<h3>Model Year: <em><%= @car.make_year %></em></h3>
+<h3>Selling Price: <em>&#36;<%= @car.price %></em></h3>
 
 <form action="<%="/cars/#{@car.id}/edit"%>" method="GET">
 	<input type="submit" value="Edit Car">

@@ -1,12 +1,15 @@
-<h1>Welcome,</h1>
+<h1>Welcome, <%= @user.username %></h1>
+<h3> Cars Available For Sale Today: </h3>
 <% @cars.each_with_index do |car, i| %>
+
 	<p><a href='/cars/<%=car.id%>'>
 		<%= (i+1).to_s + ':  ' %>
+		<%= car.make_year %>
     <%= car.brand %>
     <%= car.name %>
-    <%= car.make_year %>
-  </a>
-  User: <%= car.user %>
+		For: &#36;<%= car.price %>
+  </a>&nbsp&nbsp&nbsp
+  <a href="mailto:<%= car.user.email %>?Subject=Do%20You%20Still%20Have%20The%20<%= car.name %>%20For%20Sale?" target="_top">Contact Seller</a>
   </p>
 <% end %>
 <br>

@@ -1,11 +1,14 @@
-<h3><%= @car.brand %></h3>
-<h3><%= @car.name %></h3>
-<h3><%= @car.make_year %></h3>
+<h3>Brand: <em><%= @car.brand %></em></h3>
+<h3>Model: <em><%= @car.name %></em></h3>
+<h3>Model Year: <em><%= @car.make_year %></em></h3>
+<h3>Selling Price: <em>&#36;<%= @car.price %></em></h3>
 
+<p>Edit Your Details Below</p>:
 <form action='/cars/<%= @car.id %>' method='POST'>
-  <label>Brand: </label><br><br><input id="brand" type='text' name="brand"><br><br>
-	<label>Car Model: </label><br><br><input id="car_model" type='text' name='name'><br><br>
-	<label>Year: </label><br><br><input id="make_year" type='text' name='make_year'><br><br>
+  <label>Brand: </label><br><br><input id="brand" type='text' name="brand" value="<%= @car.brand %>"><br><br>
+	<label>Car Model: </label><br><br><input id="car_model" type='text' name='name' value="<%= @car.name %>"><br><br>
+	<label>Year: </label><br><br><input id="make_year" type='text' name='make_year' value="<%= @car.make_year %>"><br><br>
+  <label>Selling Price: </label><br><br><input id="selling_price" type='number' name='price' value="<%= @car.price %>"><br><br>
 	<input type="submit" value="Save Edit">
 </form><br>
 <form action="<%="/cars/#{@car.id}/delete"%>" method="POST">
