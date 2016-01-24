@@ -3,6 +3,7 @@ class CarsController < ApplicationController
 
 
   get '/cars' do
+    error
     @cars = Car.all
     if logged_in?
       @user = User.find_by(session[:id])
@@ -35,6 +36,7 @@ class CarsController < ApplicationController
 
   get '/cars/:id' do
     @car = Car.find(params[:id])
+    error
     if logged_in?
       erb :'cars/show'
     else
@@ -43,10 +45,12 @@ class CarsController < ApplicationController
   end
 
   get '/cars/:id/edit' do
+    @car = Car.find(params[:id])
 		error
-    if logged_in?
-      @car = Car.find(params[:id])
+    if logged_in? && @car.user_id == current_user.id
       erb :'cars/edit'
+    elsif @car.user_id != current_user.id
+      redirect '/cars?error=THAT IS NOT YOUR CAR'
     else
       redirect to '/login'
     end
@@ -67,14 +71,21 @@ class CarsController < ApplicationController
     end
   end
 
-  post '/cars/:id/delete' do
-		error
-    @car = Car.find_by(params[:id])
-    if logged_in?
-      @car.delete
-      redirect to '/cars'
+  get '/cars/:id/delete' do
+    @car = Car.find(params[:id])
+    error
+    if logged_in? && @car.user_id == current_user.id
+      erb :'cars/delete'
+    elsif logged_in?
+      redirect "/cars/#{@car.id}?error=THAT IS NOT YOUR CAR"
     else
       redirect to '/login'
     end
+  end
+
+  post '/cars/:id/delete' do
+    @car = Car.find(params[:id])
+    @car.delete
+    redirect to '/cars'
   end
 end

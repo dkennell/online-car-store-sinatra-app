@@ -3,7 +3,7 @@
 <h3>Model Year: <em><%= @car.make_year %></em></h3>
 <h3>Selling Price: <em>&#36;<%= @car.price %></em></h3>
 
-<p>Edit Your Details Below</p>:
+<p>Edit Your Details Below:</p>
 <form action='/cars/<%= @car.id %>' method='POST'>
   <label>Brand: </label><br><br><input id="brand" type='text' name="brand" value="<%= @car.brand %>"><br><br>
 	<label>Car Model: </label><br><br><input id="car_model" type='text' name='name' value="<%= @car.name %>"><br><br>
@@ -11,6 +11,7 @@
   <label>Selling Price: </label><br><br><input id="selling_price" type='number' name='price' value="<%= @car.price %>"><br><br>
 	<input type="submit" value="Save Edit">
 </form><br>
-<form action="<%="/cars/#{@car.id}/delete"%>" method="POST">
+
+<form action="/cars/<%= @car.id %>/delete" method="POST">
 	<input type="submit" value="Delete Car">
 </form>
