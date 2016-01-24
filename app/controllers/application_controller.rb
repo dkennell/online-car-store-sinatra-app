@@ -9,6 +9,13 @@ class ApplicationController < Sinatra::Base
 
 
   helpers do
+
+		def logged_out?
+			if !logged_in?
+				redirect '/login?error=Please LOG IN to view that content'
+			end
+		end
+
   	def logged_in?
   		!!session[:id]
   	end
@@ -16,9 +23,15 @@ class ApplicationController < Sinatra::Base
   	def current_user
   		User.find(session[:id])
   	end
+
+		def error
+			@error_message = params[:error]
+		end
   end
 
-  get '/' do 
+  get '/' do
+		@cars = Car.all
+		error
     erb :index
   end
 
@@ -30,25 +43,26 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  post '/signup' do 
+  post '/signup' do
     if params.values.include?("")
       redirect to '/signup'
     else
       @user = User.create(params)
       session[:id] = @user.id
       redirect '/cars'
-    end 
+    end
   end
 
   get '/login' do
-    if logged_in?   
+		error
+    if logged_in?
       redirect to '/cars'
     else
        erb :'users/user_login'
     end
   end
 
-  get '/cars' do 
+  get '/cars' do
     @cars = Car.all
     if logged_in?
       @user = User.find_by(session[:id])
@@ -58,15 +72,15 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  post '/login' do 
+  post '/login' do
     if params[:username] == nil || params[:password == nil]
       redirect "/login"
-    else 
+    else
       @user = User.find_by(:username => params[:username])
       if @user && @user.authenticate(params[:password])
-        session[:id] = @user.id 
+        session[:id] = @user.id
         redirect "/cars"
-      else 
+      else
         redirect "/login"
       end
     end
@@ -78,7 +92,7 @@ class ApplicationController < Sinatra::Base
     end
     redirect '/login'
   end
- 
+
   get '/users/:slug' do
     @user = User.find_by_slug(params[:slug])
     if @user.logged_in?
@@ -88,15 +102,16 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  get '/cars/new' do 
+  get '/cars/new' do
+		error
     if logged_in?
       erb :'cars/new'
     else
-      redirect to '/login'
+			logged_out?
     end
   end
 
-  post '/cars/new' do 
+  post '/cars/new' do
     if params["content"] != ""
       @car = Car.create(:name => params["name"], :brand => params["brand"], :make_year => params["make_year"])
       @car.user_id = User.find(session[:id])
@@ -117,10 +132,11 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/cars/:id/edit' do
+		error
     if logged_in?
       @car = Car.find(params[:id])
       erb :'cars/edit'
-    else 
+    else
       redirect to '/login'
     end
   end
@@ -134,7 +150,7 @@ class ApplicationController < Sinatra::Base
         @car.make_year = params[:make_year]
         @car.save
         redirect to '/cars'
-      else 
+      else
         redirect to "/cars/#{@car.id}/edit"
       end
     else
@@ -143,6 +159,7 @@ class ApplicationController < Sinatra::Base
   end
 
   post '/cars/:id/delete' do
+		error
     @car = Car.find_by(params[:id])
     if logged_in?
       @car.delete
