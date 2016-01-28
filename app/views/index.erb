@@ -1,13 +1,15 @@
 <h3> Cars Available For Sale Today: </h3>
-<% Car.all.each_with_index do |car, i| %>
 
-	<p><a href='/cars/<%=car.id%>'>
-		<%= (i+1).to_s + ':  ' %>
+<ol>
+<% Car.all.each do |car| %>
+
+	<li><a href='/cars/<%=car.id%>'>
 		<%= car.make_year %>
     <%= car.brand %>
     <%= car.name %>
 		For: &#36;<%= car.price %>
   </a>&nbsp&nbsp&nbsp
   <a href="mailto:<%= car.user.email %>?Subject=Do%20You%20Still%20Have%20The%20<%= car.name %>%20For%20Sale?" target="_top">Contact Seller</a>
-  </p>
+</li>
 <% end %>
+</ol>

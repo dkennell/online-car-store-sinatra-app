@@ -1,5 +1,5 @@
-class User < ActiveRecord::Base 
-	has_many :cars
+class User < ActiveRecord::Base
+	has_many :cars #
 	has_secure_password
 
 	def slug
@@ -7,7 +7,16 @@ class User < ActiveRecord::Base
 	end
 
 	def self.find_by_slug(slug)
-		self.all.map {|info| @username = info.username if info.slug == slug}
-		self.find_by(:username => @username)
+		# avi-flombaum
+		# Avi Flombaum
+
+		self.find(username: => self.username_from_slug(slug))
 	end
+
+	private
+
+		def self.username_from_slug(slug)
+			slug.split("-").collect{|s| s.capitalize}.join(" ")
+			# "avi-flombaum" ["avi", "flombaum"]
+		end
 end

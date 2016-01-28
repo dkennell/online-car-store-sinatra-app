@@ -24,10 +24,10 @@ class CarsController < ApplicationController
   end
 
   post '/cars/new' do
+    # Car.new is to user.cars.build
+    # as Car.create is to user.cars.create
     if params["content"] != ""
-      @car = Car.create(:name => params["name"], :brand => params["brand"], :make_year => params["make_year"], :price => params["price"])
-      @car.user = User.find(session[:id])
-      @car.save
+      @car = current_user.cars.create(:name => params["name"], :brand => params["brand"], :make_year => params["make_year"], :price => params["price"])
       redirect to '/cars'
     else
       redirect '/cars/new'
@@ -45,12 +45,13 @@ class CarsController < ApplicationController
   end
 
   get '/cars/:id/edit' do
-    @car = Car.find(params[:id])
-		error
-    if logged_in? && @car.user_id == current_user.id
+    if logged_in?
+      begin
+        @car = current_user.cars.find(params[:id])
+      rescue
+		    redirect '/cars?error=THAT IS NOT YOUR CAR'
+      end
       erb :'cars/edit'
-    elsif @car.user_id != current_user.id
-      redirect '/cars?error=THAT IS NOT YOUR CAR'
     else
       redirect to '/login'
     end
