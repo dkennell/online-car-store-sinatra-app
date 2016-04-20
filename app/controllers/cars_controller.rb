@@ -24,8 +24,6 @@ class CarsController < ApplicationController
   end
 
   post '/cars/new' do
-    # Car.new is to user.cars.build
-    # as Car.create is to user.cars.create
     if params["content"] != ""
       @car = current_user.cars.create(:name => params["name"], :brand => params["brand"], :make_year => params["make_year"], :price => params["price"])
       redirect to '/cars'

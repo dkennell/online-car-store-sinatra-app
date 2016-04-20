@@ -7,9 +7,6 @@ class User < ActiveRecord::Base
 	end
 
 	def self.find_by_slug(slug)
-		# avi-flombaum
-		# Avi Flombaum
-
 		self.find(username: => self.username_from_slug(slug))
 	end
 
@@ -17,6 +14,5 @@ class User < ActiveRecord::Base
 
 		def self.username_from_slug(slug)
 			slug.split("-").collect{|s| s.capitalize}.join(" ")
-			# "avi-flombaum" ["avi", "flombaum"]
 		end
 end
